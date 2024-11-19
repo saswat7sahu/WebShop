@@ -1,0 +1,10 @@
+{% extends 'base.html'%}
+{% block link_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+{% endblock %}
+{% block button_content %}
+<li><a href="{{ url_for('additems') }}">Contact</a></li>
+{% endblock %}
+{% block content %}
+<h1>item want</h1>
+{%endblock%}

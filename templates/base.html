@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title%}{%endblock%}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nav.css') }}">
+    {% block link_css %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <div class="logo">MySite</div>
+        <nav>
+            <ul id="nav-list" class="nav-list">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('shop') }}">shop</a></li>
+                {% block button_content %}{% endblock %}
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+            <div id="hamburger" class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+    <script src="{{ url_for('static', filename='nav.js') }}"></script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul>
+        {% for category, message in messages %}
+        <li class="alert alert-{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {%block content%}
+    {% endblock %}
+</body>
+
+</html>

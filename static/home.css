@@ -1,0 +1,42 @@
+.mainc{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+.container {
+    display: flex;
+    height: 400px;
+    width: 400px;
+    margin-left: 30px;
+    padding: 20px;
+    background-color: #ea9e9e;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(205, 113, 113, 0.2);
+    justify-content: center;
+    align-items: center;
+  }
+  .styled-button {
+    height: 50px;
+    width: 200px;
+    background-color: #007BFF; /* Button background color */
+    color: white;             /* Text color */
+    border: none;             /* Removes border */
+    padding: 10px 20px;       /* Adds spacing inside the button */
+    border-radius: 5px;       /* Rounds the corners */
+    font-size: 16px;          /* Sets the font size */
+    cursor: pointer;          /* Changes cursor to pointer on hover */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth effects */
+}
+
+.styled-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05);    /* Slightly enlarges button on hover */
+}
+
+.styled-button:active {
+    background-color: #003d80; /* Even darker on click */
+    transform: scale(1);       /* Resets size on click */
+}

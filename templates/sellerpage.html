@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+{% block link_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+{% endblock %}
+{% block button_content %}
+<li><a href="{{ url_for('additems') }}">Contact</a></li>
+{% endblock %}
+{% block content %}
+<div class="mainc">
+    <div class="container" onclick="window.location.href='{{ url_for('additems') }}';">Add items</div>
+    <div class="container" onclick="window.location.href='{{ url_for('login') }}';">consumer request</div>
+</div>
+{% endblock %}

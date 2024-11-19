@@ -1,0 +1,44 @@
+{% extends 'base.html'%}
+{% block link_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='shop.css') }}">
+{% endblock %}
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Grid</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   {%if items%}
+   <div class="container">
+    {% for item in items %}
+    <div class="cart-container">
+        <div class="product-image">
+            <img src="{{ url_for('static', filename='/images/yashu mashetty.jpg') }}" alt="Amul Taaza Milky Milk">
+            <div class="delivery-time">10 mins</div>
+        </div>
+        <div class="product-details">
+            <h3 class="product-title">{{item.ProductName}}</h3>
+            <p class="product-size">{{item.ProductSize}}</p>
+            <p class="product-price">{{item.ProductPrice}}</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" id="remove-btn">-</button>
+                <span class="quantity-value">1</span>
+                <button class="quantity-btn" id="add-btn">+</button>
+            </div>
+        </div>
+    </div>
+    
+    {%endfor%}
+</div>
+{%else%}
+<h2>no item left</h2>
+{%endif%}
+</body>
+</html>
+
+{% endblock %}
