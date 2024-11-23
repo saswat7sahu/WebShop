@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+{% block link_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='conreq.css') }}">
+{% endblock %}
+{% block content %}
+<div class="table-container">
+    <h1>Product List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Size</th>
+                <th>Buyer Name</th>
+                <th>Mobile Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Jinja2 Loop to Render Data -->
+            <!-- {% for product in products %}
+            <tr>
+                <td>{{ product.productname }}</td>
+                <td>{{ product.productsize }}</td>
+                <td>{{ product.buyername }}</td>
+                <td>{{ product.mobilenumber }}</td>
+            </tr>
+            {% endfor %} -->
+        </tbody>
+    </table>
+</div>
+{%endblock%}
