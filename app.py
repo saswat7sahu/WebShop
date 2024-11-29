@@ -7,6 +7,23 @@ def home():
 @app.route("/contact")
 def contact():
     return render_template('contact.html')
+@app.route("/sellerItems")
+def sellerItems():
+    if "user_id" in session:
+            user_id=session["user_id"]
+            cursor=mysql.connect.cursor()
+            cursor.execute('select product_name,productPrice,productSize from product where ProductId= %s ',(user_id,))
+            db_out = cursor.fetchall()
+            items=[]
+            for i in db_out:
+                item={
+                    "ProductName": i[0],
+                    "ProductPrice":i[1],
+                    "ProductSize":i[2],
+                }
+                items.append(item)
+            cursor.close()
+            return render_template('sellerItems.html',items=items)
 @app.route("/shop")
 def shop():
     cursor=mysql.connect.cursor()
@@ -37,7 +54,7 @@ def additems():
             mysql.connection.commit()
             cursor.close()
             flash(f"Item {productName} has been added!",'success')
-            return redirect(url_for('shop'))
+            return redirect(url_for('sellerItems'))
     return render_template('additems.html')
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -109,18 +126,51 @@ def update_quantity():
                 "productQuantity": 1
             })
     else:
-        # Add a new productId entry if it doesn't exist
+        # Add a new productId
         productIds[product_id] = [{
             "productName": product_name,
             "productPrice": product_price,
             "productQuantity": 1
         }]
-
     # Save updated product list back to the session
     session["ProductIds"] = productIds
-
-    print(session["ProductIds"])  # Debugging output
-
     return {"message": "Product quantity updated successfully"}
+@app.route('/checkout', methods=['POST'])
+def checkout():
+    # Get buyer details from the form
+   if request.method=="POST":
+    contact_number = request.form.get('contact_number')
+    email = request.form.get('email')
+    # Validate inputs
+    if not contact_number or not email:
+        flash("Contact number and email are required to complete the purchase.", "danger")
+        return redirect(url_for('cart'))
+    # Get cart items from the session
+    productIds = session.get("ProductIds", {})
+    if not productIds:
+        flash("Your cart is empty. Add items to checkout.", "warning")
+        return redirect(url_for('shop'))
+    try:
+        # Insert the cart data along with buyer details into the database
+        cursor = mysql.connection.cursor()
+        for product_id, items in productIds.items():
+            for item in items:
+                cursor.execute(
+                    '''
+                    INSERT INTO orders (buyer_contact, buyer_email, product_name, product_price, product_quantity)
+                    VALUES (%s, %s, %s, %s, %s)
+                    ''',
+                    (contact_number, email, item["productName"], item["productPrice"], item["productQuantity"])
+                )
+        mysql.connection.commit()
+        cursor.close()
+
+        # Clear the cart session data
+        session.pop("ProductIds", None)
+        flash("Order placed successfully!", "success")
+
+    except Exception as e:
+        flash(f"Error during checkout: {str(e)}", "danger")
+    return redirect(url_for('shop'))
 if __name__ == "__main__":
     app.run()

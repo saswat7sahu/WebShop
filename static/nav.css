@@ -7,6 +7,7 @@
 
 body {
     font-family: Arial, sans-serif;
+    height: 100%;
 }
 
 header {
@@ -17,12 +18,6 @@ header {
     background-color: #333;
     color: #fff;
 }
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
 .nav-list {
     list-style: none;
     display: flex;
@@ -89,4 +84,12 @@ header {
 .alert-info {
     background-color: #4a22cd;
     border-color: #bce8f1;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #d1ca4d;
+    
 }

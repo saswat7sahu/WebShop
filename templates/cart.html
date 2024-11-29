@@ -1,22 +1,37 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% block link_css %}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
 {% endblock %}
 {% block content %}
-<h1>Your Cart</h1>
+<div class="cart-container">
+    <h1>Your Cart</h1>
     {% if productIds %}
-        <ul>
+        <ul class="cart-items">
             {% for product_id, items in productIds.items() %}
                 {% for item in items %}
-                    <li>
-                        <strong>Name:</strong> {{ item.productName }} <br>
-                        <strong>Price:</strong> {{ item.productPrice }} <br>
-                        <strong>Quantity:</strong> {{ item.productQuantity }}
+                    <li class="cart-item">
+                        <div class="cart-item-details">
+                            <strong>Name:</strong> {{ item.productName }} <br>
+                            <strong>Price:</strong> ₹{{ item.productPrice }} <br>
+                            <strong>Quantity:</strong> {{ item.productQuantity }}
+                        </div>
                     </li>
                 {% endfor %}
             {% endfor %}
         </ul>
+        <form action="{{ url_for('checkout') }}" method="POST" class="cart-form">
+            <div class="form-group">
+                <label for="contact_number">Contact Number:</label>
+                <input type="text" id="contact_number" name="contact_number" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-success">Buy Now</button>
+        </form>
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}
-{%endblock%}
+</div>
+{% endblock %}

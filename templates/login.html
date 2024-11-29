@@ -3,16 +3,17 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 {% endblock %}
 {% block content%}
-<div class="login-container">
-   
-    <h2>Log in to continue</h2>
-    <form method="POST" action="{{ url_for('login') }}">
-      <div class="input-group">
-        <input type="email" name="email" placeholder="Enter your email" required>
-        <input type="password" name="password" placeholder="Enter your password" required>
-      </div>
-      <button type="submit" class="btn-primary">Continue</button>
-    </form>
-    <a href="{{ url_for('signup') }}" class="signup-link">Don't have an account? Sign up</a>
+<div class="page-wrapper">
+  <div class="login-container">
+      <h2>Log in to continue</h2>
+      <form method="POST" action="{{ url_for('login') }}">
+          <div class="input-group">
+              <input type="email" name="email" placeholder="Enter your email" required>
+              <input type="password" name="password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="btn-primary">Continue</button>
+      </form>
+      <a href="{{ url_for('signup') }}" class="signup-link">Don't have an account? Sign up</a>
   </div>
+</div>
 {%endblock%}
