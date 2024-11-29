@@ -10,14 +10,15 @@ def contact():
 @app.route("/shop")
 def shop():
     cursor=mysql.connect.cursor()
-    cursor.execute("""select product_name,productPrice,productSize from product""")
+    cursor.execute("""select product_name,productPrice,productSize,ProductId from product""")
     db_out = cursor.fetchall()
     items=[]
     for i in db_out:
         item={
             "ProductName": i[0],
             "ProductPrice":i[1],
-            "ProductSize":i[2]
+            "ProductSize":i[2],
+            "ProductId":i[3]
         }
         items.append(item)
     cursor.close()
@@ -79,5 +80,47 @@ def sellerpage():
 @app.route('/consumerReq')
 def consumerReq():
     return render_template("consumerReq.html")
+@app.route('/cart')
+def cart():
+    productIds = session.get("ProductIds", {})
+    return render_template("cart.html", productIds=productIds)
+@app.route("/update_quantity", methods=["POST"])
+def update_quantity():
+    data = request.get_json()  # Receive JSON data from the client
+    product_name = data.get('productName')
+    product_price = data.get('productPrice')
+    product_id = data.get('productId')
+
+    # Get existing product data from the session
+    productIds = session.get("ProductIds", {})
+
+    # Check if the productId is already in the session
+    if product_id in productIds:
+        # Update quantity if the product exists
+        for item in productIds[product_id]:
+            if item["productName"] == product_name:
+                item["productQuantity"] += 1
+                break
+        else:
+            # Add as a new item for the productId if not already in the list
+            productIds[product_id].append({
+                "productName": product_name,
+                "productPrice": product_price,
+                "productQuantity": 1
+            })
+    else:
+        # Add a new productId entry if it doesn't exist
+        productIds[product_id] = [{
+            "productName": product_name,
+            "productPrice": product_price,
+            "productQuantity": 1
+        }]
+
+    # Save updated product list back to the session
+    session["ProductIds"] = productIds
+
+    print(session["ProductIds"])  # Debugging output
+
+    return {"message": "Product quantity updated successfully"}
 if __name__ == "__main__":
     app.run()

@@ -2,17 +2,10 @@
 {% block link_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='shop.css') }}">
 {% endblock %}
+{% block button_content %}
+<li><a href="{{ url_for('cart') }}"><span class="cart-icon">&#128722;</span></a></li>
+{% endblock %}
 {% block content%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Grid</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
    {%if items%}
    <div class="container">
     {% for item in items %}
@@ -26,19 +19,44 @@
             <p class="product-size">{{item.ProductSize}}</p>
             <p class="product-price">{{item.ProductPrice}}</p>
             <div class="quantity-controls">
-                <button class="quantity-btn" id="remove-btn">-</button>
-                <span class="quantity-value">1</span>
-                <button class="quantity-btn" id="add-btn">+</button>
+                <span class="quantity-value" id="quantity-{{ item.ProductName }}">1</span>
+                <button class="quantity-btn" onclick="updateQuantity('{{ item.ProductName }}', '{{ item.ProductPrice }}','{{ item.ProductId }}')">+</button>
             </div>
+            
         </div>
     </div>
+    <script>
+        function updateQuantity(productName, productPrice,ProductId) {
+            // Prepare data to send to the server
+            const data = {
+                productName: productName,
+                productPrice: productPrice,
+                productId: ProductId
+            };
+    
+            // Send data to Flask using fetch API
+            fetch('/update_quantity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Success:', result);
+                alert(result.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>    
     
     {%endfor%}
 </div>
 {%else%}
 <h2>no item left</h2>
 {%endif%}
-</body>
-</html>
 
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+{% block link_css %}
+
+{% endblock %}
+{% block content %}
+<h1>Your Cart</h1>
+    {% if productIds %}
+        <ul>
+            {% for product_id, items in productIds.items() %}
+                {% for item in items %}
+                    <li>
+                        <strong>Name:</strong> {{ item.productName }} <br>
+                        <strong>Price:</strong> {{ item.productPrice }} <br>
+                        <strong>Quantity:</strong> {{ item.productQuantity }}
+                    </li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+{%endblock%}
