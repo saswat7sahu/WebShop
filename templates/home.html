@@ -1,10 +1,14 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% block link_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 {% endblock %}
 {% block content %}
 <div class="mainc">
-    <div class="container" onclick="window.location.href='{{ url_for('shop') }}';">buyer</div>
-    <div class="container" onclick="window.location.href='{{ url_for('signup') }}';">seller</div>
+    <div class="container buyer" onclick="window.location.href='{{ url_for('shop') }}';">
+        <span>Buyer</span>
+    </div>
+    <div class="container seller" onclick="window.location.href='{{ url_for('signup') }}';">
+        <span>Seller</span>
+    </div>
 </div>
 {% endblock %}

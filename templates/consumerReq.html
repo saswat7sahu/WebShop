@@ -9,22 +9,25 @@
         <thead>
             <tr>
                 <th>Product Name</th>
-                <th>Product Size</th>
-                <th>Buyer Name</th>
-                <th>Mobile Number</th>
+                <th>Product price</th>
+                <th>item quantity</th>
+                <th>Buyer email</th>
+                <th>Mobile number</th>
+                <th>order date</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Jinja2 Loop to Render Data -->
-            <!-- {% for product in products %}
+         {% for item in  items %}
             <tr>
-                <td>{{ product.productname }}</td>
-                <td>{{ product.productsize }}</td>
-                <td>{{ product.buyername }}</td>
-                <td>{{ product.mobilenumber }}</td>
+                <td>{{ item.ProductName }}</td>
+                <td>{{ item.ProductPrice }}</td>
+                <td>{{ item.ProductSize }}</td>
+                <td>{{ item.BuyerEmail }}</td>
+                <td>{{ item.BuyerContact }}</td>
+                <td>{{ item.OrederDate }}</td>
             </tr>
-            {% endfor %} -->
+         {% endfor %}
         </tbody>
     </table>
 </div>
-{%endblock%}
+{%endblock%} 

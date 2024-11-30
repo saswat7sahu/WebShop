@@ -96,7 +96,24 @@ def sellerpage():
     return render_template("sellerpage.html")
 @app.route('/consumerReq')
 def consumerReq():
-    return render_template("consumerReq.html")
+    if "user_id" in session:
+        user_id=session["user_id"]
+        cursor=mysql.connect.cursor()
+        cursor.execute('select product_name,product_price,product_quantity,buyer_email,buyer_contact,order_date from orders where id= %s',(user_id,))
+        db_out = cursor.fetchall()
+        items=[]
+        for i in db_out:
+            item={
+                "ProductName": i[0],
+                "ProductPrice":i[1],
+                "ProductSize":i[2],
+                "BuyerEmail":i[3],
+                "BuyerContact": i[4],
+                "OrederDate":i[5]
+            }
+            items.append(item)
+        cursor.close()
+        return render_template("consumerReq.html",items=items)
 @app.route('/cart')
 def cart():
     productIds = session.get("ProductIds", {})
@@ -172,5 +189,9 @@ def checkout():
     except Exception as e:
         flash(f"Error during checkout: {str(e)}", "danger")
     return redirect(url_for('shop'))
+@app.route('/logout')
+def logout():
+    session.pop("user_id", None)
+    return render_template("home.html")
 if __name__ == "__main__":
     app.run()
