@@ -1,10 +1,12 @@
 from app_init import mysql,app
-
+import time
 def create_tables():
     # Establish a connection to MySQL
     with app.app_context():
-        conn = mysql.connect
-        cursor = conn.cursor()
+        print("trying to connect db")
+        time.sleep(30)
+        cursor = mysql.connection.cursor()
+        print("connection estalished")
         queries = [
             """
             CREATE TABLE IF NOT EXISTS signup (
@@ -39,12 +41,11 @@ def create_tables():
             # Execute each query
             for query in queries:
                 cursor.execute(query)
-            conn.commit()
+            mysql.connection.commit()
             print("Tables created successfully!")
         except Exception as e:
             print(f"Error creating tables: {e}")
         finally:
             cursor.close()
-            conn.close()
 if __name__ == "__main__":
     create_tables()
